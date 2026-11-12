@@ -30,7 +30,7 @@ npm run build
 npm run preview
 ```
 
-The Vite base path defaults to `/ebook-flashcards/`, the GitHub Pages project-site path for this repository. For a different repository path, set `VITE_BASE_PATH` at build time (for example `VITE_BASE_PATH=/my-repo/ npm run build`). For a user/organization site at the domain root, use `/`.
+The Vite base path defaults to `/` for the custom domain. For a GitHub Pages project-site path, set `VITE_BASE_PATH` at build time (for example `VITE_BASE_PATH=/my-repo/ npm run build`).
 
 To publish using GitHub Pages, configure the repository to deploy the `dist/` output from the branch/workflow you choose. This project does not deploy itself. Supabase functions must be deployed separately; a static GitHub Pages site cannot securely host server secrets or backend code.
 
