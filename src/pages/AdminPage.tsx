@@ -321,7 +321,12 @@ export function AdminPage() {
         <section className="admin-login-card">
           <Link className="brand" to="/"><span className="brand-mark">স</span><span><strong>সহজ প্যারেন্টিং</strong><small>SOHOJ PARENTING</small></span></Link>
           <h1>অ্যাডমিন ড্যাশবোর্ড</h1>
-          <div className="config-warning"><strong>Supabase কনফিগার করা হয়নি</strong><p>অ্যাডমিন লগইন চালু করতে .env.local-এ Supabase URL ও anon key দিন এবং সেটআপ নির্দেশনা অনুসরণ করুন।</p></div>
+          <div className="config-warning">
+            <strong>Supabase কনফিগার করা হয়নি</strong>
+            <p>অ্যাডমিন ড্যাশবোর্ড চালাতে নিচের public Supabase configuration দরকার:</p>
+            <ul>{supabaseConfig.missingVariables.map((variable) => <li key={variable}><code>{variable}</code></li>)}</ul>
+            <p>Local development-এ `.env.local` এবং production-এ GitHub Repository Variables-এ এগুলো সেট করে নতুন build deploy করুন।</p>
+          </div>
           <Link className="text-link" to="/">← স্টোরফ্রন্টে ফিরে যান</Link>
         </section>
       </main>

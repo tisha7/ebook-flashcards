@@ -12,12 +12,17 @@ export const paymentConfig = {
   accountType: 'অ্যাকাউন্টের ধরন যাচাই করে নিন',
 };
 
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim() ?? '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() ?? '';
+
 export const supabaseConfig = {
-  url: import.meta.env.VITE_SUPABASE_URL ?? '',
-  anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY ?? '',
-  isConfigured: Boolean(
-    import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY,
-  ),
+  url: supabaseUrl,
+  anonKey: supabaseAnonKey,
+  isConfigured: Boolean(supabaseUrl && supabaseAnonKey),
+  missingVariables: [
+    ...(!supabaseUrl ? ['VITE_SUPABASE_URL'] : []),
+    ...(!supabaseAnonKey ? ['VITE_SUPABASE_ANON_KEY'] : []),
+  ],
 };
 
 export const metaPixelId = import.meta.env.VITE_META_PIXEL_ID ?? '';
