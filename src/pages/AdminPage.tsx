@@ -56,6 +56,7 @@ export function AdminPage() {
   const [note, setNote] = useState('');
   const [deliveryReference, setDeliveryReference] = useState('');
   const [deliveryLink, setDeliveryLink] = useState('');
+  const [deliveryExpiresAt, setDeliveryExpiresAt] = useState('');
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -186,15 +187,21 @@ export function AdminPage() {
     setErrorMessage('');
     setMessage('');
     setDeliveryLink('');
+    setDeliveryExpiresAt('');
     try {
-      const { data, error } = await supabase.functions.invoke<{ signed_url: string; error?: string }>(
+      const { data, error } = await supabase.functions.invoke<{
+        claim_url: string;
+        expires_at: string;
+        error?: string;
+      }>(
         'create-delivery-link',
-        { body: { order_id: selectedOrder.id } },
+        { body: { order_id: selectedOrder.id, base_path: import.meta.env.BASE_URL } },
       );
       if (error) throw new Error(data?.error || error.message);
-      if (!data?.signed_url) throw new Error('প্রাইভেট ডেলিভারি লিংক তৈরি করা যায়নি।');
-      setDeliveryLink(data.signed_url);
-      setMessage('প্রাইভেট ডেলিভারি লিংক তৈরি হয়েছে। এটি শুধু ক্রেতাকে ব্যক্তিগতভাবে পাঠান।');
+      if (!data?.claim_url || !data.expires_at) throw new Error('প্রাইভেট ডেলিভারি লিংক তৈরি করা যায়নি।');
+      setDeliveryLink(data.claim_url);
+      setDeliveryExpiresAt(data.expires_at);
+      setMessage('ক্রেতার ব্যক্তিগত ডেলিভারি লিংক তৈরি হয়েছে। এটি শুধু সংশ্লিষ্ট ক্রেতাকে পাঠান।');
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'ডেলিভারি লিংক তৈরি করা যায়নি।');
     } finally {
@@ -316,7 +323,7 @@ export function AdminPage() {
                       <label><span>ডেলিভারির ব্যক্তিগত রেফারেন্স (ঐচ্ছিক)</span><input value={deliveryReference} onChange={(e) => setDeliveryReference(e.target.value)} placeholder="যেমন: ইমেইলে পাঠানো হয়েছে" /></label>
                       <p className="delivery-instruction">পণ্যটি ব্যক্তিগত WhatsApp/ইমেইল চ্যানেলে পাঠান। এখানে কোনো পাবলিক ফাইল URL দেবেন না।</p>
                       <div className="action-row"><button className="button button-outline" disabled={busy} onClick={() => void generateDeliveryLink()}>প্রাইভেট ৭ দিনের লিংক তৈরি</button><button className="button button-outline" onClick={() => void copy(`আসসালামু আলাইকুম ${selectedOrder.customer_name}, আপনার ${BUNDLE_NAME} অর্ডারটি যাচাই হয়েছে। পণ্যটি এই ব্যক্তিগত চ্যানেলে সংযুক্ত/পাঠানো হলো। ধন্যবাদ — সহজ প্যারেন্টিং`)}>ডেলিভারি মেসেজ কপি</button></div>
-                      {deliveryLink && <div className="private-link"><span>প্রাইভেট লিংক — ৭ দিন পর মেয়াদ শেষ হবে</span><a href={deliveryLink} target="_blank" rel="noreferrer">ফাইল খুলুন ↗</a><button className="button button-outline" onClick={() => void copy(deliveryLink)}>লিংক কপি</button></div>}
+                      {deliveryLink && <div className="private-link"><span>প্রাইভেট লিংক — মেয়াদ শেষ: {new Date(deliveryExpiresAt).toLocaleString('bn-BD')}</span><a href={deliveryLink} target="_blank" rel="noreferrer">ডেলিভারি খুলুন ↗</a><button className="button button-outline" onClick={() => void copy(deliveryLink)}>লিংক কপি</button></div>}
                       <div className="action-row"><button className="button" disabled={busy || !deliveryReference.trim()} onClick={() => void runAction('delivered')}>ডেলিভার হয়েছে চিহ্নিত করুন</button></div>
                     </>}
                     {selectedOrder.status !== 'REJECTED' && <div className="note-actions"><label><span>অ্যাডমின் নোট</span><textarea rows={2} value={note} onChange={(e) => setNote(e.target.value)} /></label><button className="button button-outline" disabled={busy || !note.trim()} onClick={() => void runAction('note')}>নোট সংরক্ষণ</button></div>}

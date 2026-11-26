@@ -147,7 +147,7 @@ export function CheckoutPage() {
             <div className="receiver-details">
               <span>Send Money করুন</span>
               <strong>{paymentConfig.receiverNumber}</strong>
-              <small>{paymentConfig.accountType} • অ্যাকাউন্টের ধরন নিশ্চিত না করে টাকা পাঠাবেন না।</small>
+              <small>bKash বা Nagad থেকে ৳{PRODUCT_PRICE.toLocaleString('bn-BD')} Send Money করুন। {paymentConfig.accountType} • অ্যাকাউন্টের ধরন নিশ্চিত না করে টাকা পাঠাবেন না।</small>
             </div>
             <label>
               <span>যে নম্বর থেকে পেমেন্ট করেছেন <b>*</b></span>
@@ -170,7 +170,11 @@ export function CheckoutPage() {
         <aside className="order-summary">
           <p className="eyebrow">আপনার প্যাকেজ</p>
           <div className="summary-product">
-            <img src={`${import.meta.env.BASE_URL}assets/ebook-cover-placeholder.svg`} alt="" />
+            <img
+              src={`${import.meta.env.BASE_URL}assets/Ebook%20+%20flashcard%20cover.jpg`}
+              alt=""
+              loading="lazy"
+            />
             <div><strong>{PRODUCT_NAME}</strong><span>ইবুক + ৫০টি ফ্ল্যাশকার্ড</span></div>
           </div>
           <div className="summary-row"><span>{BUNDLE_NAME}</span><strong>৳{PRODUCT_PRICE.toLocaleString('bn-BD')}</strong></div>

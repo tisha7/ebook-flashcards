@@ -6,7 +6,11 @@ A Bengali-first product storefront for **শিশুর মুখে ফুট�
 
 The storefront and checkout interface are implemented. Order submission, payment verification, and admin operations use Supabase Edge Functions and are intentionally unavailable until Supabase is configured. No payment is automatically verified, and the website never asks for a PIN, OTP, or password.
 
-The supplied brand logo, ebook mockups, and permission-cleared customer review screenshots are included under `public/assets/` and used on the landing page. No standalone flashcard preview images were supplied, so the page does not present the ebook mockups as flashcard previews. Never put paid PDFs in `public/`.
+For the production backend audit and Bengali step-by-step setup instructions, see [SETUP_GUIDE_BN.md](./SETUP_GUIDE_BN.md).
+
+The original logo and genuine customer review screenshots are retained from `public/assets/`. The combined ebook-and-flashcard cover is used in the hero, the flashcard-only cover is featured in its own section, and the separate ebook mockup appears in the ebook preview. No paid PDF is stored in the public assets.
+
+The offer countdown is intentionally disabled until a real deadline is confirmed. To enable it, set the documented `OFFER_EXPIRY_ISO` value in `src/config.ts` to a confirmed ISO 8601 date/time with timezone; the timer uses that absolute date and stops at expiry. Keep it `null` for a normal, non-deadline offer.
 
 ## Requirements
 
@@ -64,7 +68,7 @@ The migration has row-level security enabled. Customers can submit orders only t
 
 ## Asset replacement
 
-The landing page uses `logo.jpg` in the header and footer, `ebookvisual.jpg` in the hero, and the supplied ebook mockup in the product section. Customer review screenshots are displayed unchanged in their own section; publish them only with customer permission. Images use the configured Vite base path for GitHub Pages and retain their natural aspect ratios. No standalone flashcard preview was supplied. Do not publish the complete paid ebook or flashcard PDF; keep delivery files in the private Supabase Storage bucket.
+The landing page uses `logo.jpg` in the header and footer, `Ebook + flashcard cover.jpg` in the hero, `flashcard cover.jpg` in the flashcard showcase, and `ebookvisual.jpg` in the ebook preview. Customer review screenshots are displayed unchanged; publish them only with customer permission. Images use the configured Vite base path for GitHub Pages and retain their natural aspect ratios. Do not publish the complete paid ebook or flashcard PDF; keep delivery files in the private Supabase Storage bucket.
 
 ## Payment and privacy checklist
 

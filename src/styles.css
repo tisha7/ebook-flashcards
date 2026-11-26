@@ -185,8 +185,7 @@ img { display: block; max-width: 100%; }
 .payment-option.selected { border-color: var(--burgundy); box-shadow: inset 0 0 0 1px var(--burgundy); background: #fffafb; }
 .payment-option input { width: 15px; height: 15px; min-height: auto; accent-color: var(--burgundy); }
 .payment-logo { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700; }
-.payment-logo.bkash { color: #d12053; }
-.payment-logo.nagad { color: #ef5c24; }
+.payment-logo.bkash, .payment-logo.nagad { color: var(--burgundy); }
 .receiver-details { padding: 13px 15px; display: grid; gap: 3px; border-left: 3px solid var(--olive); background: #f0f2e9; }
 .receiver-details > span { color: #555b3f; font-size: 12px; }
 .receiver-details strong { color: #354020; font-family: 'DM Sans', sans-serif; font-size: 19px; }
