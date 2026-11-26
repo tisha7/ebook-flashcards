@@ -16,6 +16,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -32,11 +34,11 @@ jobs:
       - name: Validate Supabase production configuration
         run: |
           if [ -z "${VITE_SUPABASE_URL:-}" ]; then
-            echo "::error::GitHub Repository Variable VITE_SUPABASE_URL is missing."
+            echo "::error::GitHub Actions variable VITE_SUPABASE_URL is missing or unavailable to the build environment."
             exit 1
           fi
           if [ -z "${VITE_SUPABASE_ANON_KEY:-}" ]; then
-            echo "::error::GitHub Repository Variable VITE_SUPABASE_ANON_KEY is missing."
+            echo "::error::GitHub Actions variable VITE_SUPABASE_ANON_KEY is missing or unavailable to the build environment."
             exit 1
           fi
         env:
